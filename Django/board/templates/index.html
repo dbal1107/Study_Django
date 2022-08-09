@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div id="tm-video-container">
+  <video autoplay muted loop id="tm-video">
+      <source src="video/ocean-sea-wave-video.mp4" type="video/mp4" >
+  </video>  
+  <i id="tm-video-control-button" class="fas fa-pause"></i>
+</div>
+
+<div class="container-fluid bg-4 text-center">    
+  <div class="row">
+    <div class="jumbotron">
+      <div class="container text-center">
+        <form method="post" action="/contact/">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="email">해수욕장을 검색하세요.</label>
+            <input type="text" class="form-control" name="email">
+          </div>
+        </form>
+      </div>
+      <div class="container-fluid sm-3 text-center">    
+        <div id="map" style="width:800px;height:400px"></div>
+      </div><br>
+    </div>
+
+
+  </div>
+</div><br><br>
+
+
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a92414dd786e6383b9b750e64d65f2a3"></script>
+<script>
+  navigator.geolocation.getCurrentPosition((position)=>{
+    const latitude =position.coords.latitude;
+    const longitude = position.coords.longitude;
+    
+    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+    var options = { //지도를 생성할 때 필요한 기본 옵션
+      center: new kakao.maps.LatLng(latitude, longitude), //지도의 중심좌표.
+      level: 3 //지도의 레벨(확대, 축소 정도)
+    };
+    var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+    
+  });
+</script>
+{% endblock %}
